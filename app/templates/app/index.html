@@ -1,0 +1,230 @@
+{%load static%}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ATTACKOFCOSPLAY</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'index/css/style.css'%}">
+</head>
+<body>
+  <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <div class="container-fluid">
+      <a class="navbar-brand" href="{%url 'home'%}">ATTACKOFCOSPLAY</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+          <li class="nav-item">
+            <a class="nav-link active" aria-current="page" href="{%url 'home'%}">Inicio</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{%url 'contacto'%}">Contacto</a>
+          </li>
+          <li class="nav-item dropdown">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+              Productos
+            </a>
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              <li><a class="dropdown-item" href="#">Cosplay Mujer</a></li>
+              <li><a class="dropdown-item" href="#">Cosplay Hombre</a></li>
+              <li><a class="dropdown-item" href="#">Cosplay niños</a></li>
+              <li><a class="dropdown-item" href="{%url 'otakumascota'%}">Otakumascotas</a></li>
+              <li><hr class="dropdown-divider"></li>
+              <li><a class="dropdown-item" href="#">Accesorios</a></li>
+              <li><a class="dropdown-item" href="#">Pelucas</a></li>
+            </ul>
+          </li>
+
+          {% if perms.app.add_producto %}
+          <li>
+            <a class="nav-link" href="{%url 'agregar_producto'%}">agregar producto</a>
+          </li>
+          {% endif %}
+
+          {% if perms.app.view_producto %}
+          <li>
+            <a class="nav-link" href="{%url 'listar_producto'%}">listar producto</a>
+          </li>
+          {% endif %}
+
+          {% if user.is_authenticated %}
+            <li>
+              <a class="sesion" href="{% url 'logout'%}">Cerrar sesión</a>
+            </li>
+
+          <li class="user">
+              <a href="#">{{ user.username}}</a>
+          </li>
+          {% else %}
+            <li>
+              <a class="iniciar" href="{%url 'login'%}">Iniciar sesión</a>
+            </li>
+          {% endif %}
+
+
+        </ul>
+      </div>
+    </div>
+    <div class="carrito">
+      <a href="#"><ion-icon name="cart-outline"></ion-icon></a>
+    </div>
+  </nav>
+<section class="Inicio" id="Inicio">
+        <div id="carrusel">
+            <!-- Carousel -->
+            <div id="Carousel" class="carousel slide" data-bs-ride="carousel">
+      
+              <!-- Indicators/dots -->
+              <div class="carousel-indicators">
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="0" class="active"></button>
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="1"></button>
+                <button type="button" data-bs-target="#Carousel" data-bs-slide-to="2"></button>
+              </div>
+      
+              <!-- The slideshow/carousel -->
+              <div class="carousel-inner">
+                <div class="carousel-item active">
+                  <img src="{%static 'imagenes/nezuko.jpg'%}" class="d-block" style="width:100%">
+                  <div class="carousel-caption top-1 mt-2">
+          <h1 class="display-1 fw-bolder text-capitalize">ATTACKOFCOSPLAY</h1>
+          <p class="mt-2 fs-1 text-uppercase">Sé tu personaje favorito</p>
+          <button class="btn btn-primary px-4 py-3 fs-5 mt-4">¡COMPRA AHORA!</button>
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img src="{%static 'imagenes/cos.jpg'%}"  class="d-block" style="width:100%">
+                  <div class="carousel-caption">
+                  </div>
+                </div>
+                <div class="carousel-item">
+                  <img src="{%static 'imagenes/fondoitachi.jpg'%}"  class="d-block" style="width:100%">
+                  <div class="carousel-caption">
+                  </div>
+                </div>
+              </div>
+      
+              <!-- Left and right controls/icons -->
+              <button class="carousel-control-prev" type="button" data-bs-target="#Carousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon"></span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#Carousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon"></span>
+              </button>
+            </div>
+</section>
+
+
+<!-- Inicio Productos -->
+{%load humanize%}
+<section class="contenido">
+  {% for p in productos %}
+  <div class="mostrador" id="mostrador">
+      <div class="fila">
+          <div class="item" onclick="cargar(this)">
+              <div class="contenedor-foto">
+                   {% if p.imagen %}
+                <div class="product-imitation">
+                   <img src="{{ p.imagen.url }}" alt="imagen_producto" width="200" height="200">
+                </div>
+                {% endif %}
+              </div>
+              <p class="modelo">{{p.nombre | capfirst}}</p>
+              <p class="descripcion">{{p.descripcion | capfirst}}</p>
+              <span class="precio">${{p.precio | intcomma }}</span>
+
+          </div>
+          </div>
+         
+
+      </div> 
+      {% endfor %}
+
+<!-- Teermino Productos -->
+
+
+  <!-- CONTENEDOR DEL ITEM SELECCIONADO -->
+  <div class="seleccion" id="seleccion">
+      <div class="cerrar" onclick="cerrar()">
+          &#x2715
+      </div>
+      <div class="info">
+          <img src="img/1.png" alt="" id="img">
+          <h2 id="modelo"></h2>
+
+          <span class="precio" id="precio"></span>
+
+          <div class="fila">
+              <div class="size">
+                  <label for="">talla</label>
+                  <select name="" id="">
+                      <option value="">S</option>
+                      <option value="">M</option>
+                      <option value="">L</option>
+                      <option value="">XL</option>
+                      <option value="">XXL</option>
+                  </select>
+              </div>
+              <button>AGREGAR AL CARRITO</button>
+          </div>
+      </div>
+  </div>
+</section>
+
+
+
+<!-- CONTENEDOR DEL FOOTER -->
+<footer class="mt5 py-5">
+  <div class="row">
+    <div class="footer-one col-lg-3 col-md-6 col-12">
+      <h6>ATTACKOFCOSPLAY</h6>
+      <p>Hola! Bienvenidos a Attackofcosplay <3 Descube tus cosplays favoritos a precios modicos </p>
+    </div>
+    <div class="footer-one col-lg-3 col-md-6 col-12">
+      <h5 class="pb-2">Contacto</h5>
+      <div>
+        <h6 class="text-uppercase">Direccion</h6>
+        <p>14 norte Local 343, Viña del mar. Chile</p>
+      </div>
+      <div>
+        <h6 class="text-uppercase">Email</h6>
+        <p>Attackofcosplay@gmail.com</p>
+      </div>
+      <div>
+        <h6 class="text-uppercase">Fono</h6>
+        <p>+569 456 538 34</p>
+      </div>
+    </div>
+    <div class="footer-one col-lg-3 col-md-6 col-12">
+      <h6 class="text-uppercase">Redes Sociales</h6>
+      <a href="https://www.instagram.com/attackofcosplay/"><i class="fab fa-instagram"></i></a>
+      <a href="#"><i class="fab fa-facebook"></i></a>
+    </div>
+  </div>
+</footer>
+
+
+
+
+
+
+  <script src="https://code.jquery.com/jquery-3.6.4.min.js"
+    integrity="sha256-oP6HI9z1XaZNBrJURtCoUT5SUnxFr8s3BzRl+cbzUq8=" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"
+    integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p"
+    crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.min.js"
+    integrity="sha384-cVKIPhGWiC2Al4u+LWgxfKTRIcfu0JTxR+EQDz/bgldoEyl4H0zUF0QKbrJ0EcQF"
+    crossorigin="anonymous"></script>
+ <script type="module" src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.esm.js"></script>
+<script nomodule src="https://unpkg.com/ionicons@7.1.0/dist/ionicons/ionicons.js"></script>
+<script src="{% static 'cosmujer/js/cosmujer.js'%}"></script>
+</body>
+</html>
