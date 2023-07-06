@@ -7,16 +7,14 @@ let precioSeleccionado = document.getElementById("precio");
 
 function cargar(item){
     quitarBordes();
-    mostrador.style.width = "60%";
-    seleccion.style.width = "40%";
+    mostrador.style.width = "100%";
+    seleccion.style.width = "80%";
     seleccion.style.opacity = "1";
     item.style.border = "2px solid red";
 
     imgSeleccionada.src = item.getElementsByTagName("img")[0].src;
 
     modeloSeleccionado.innerHTML =  item.getElementsByTagName("p")[0].innerHTML;
-
-    descripSeleccionada.innerHTML = "Descripción del modelo ";
 
     precioSeleccionado.innerHTML =  item.getElementsByTagName("span")[0].innerHTML;
 
@@ -34,3 +32,12 @@ function quitarBordes(){
         items[i].style.border = "none";
     }
 }
+
+ // Obtener referencia al botón
+ const button = document.getElementById('agregarAlCarrito');
+
+ // Agregar evento de clic
+ button.addEventListener('click', function() {
+   // Redirigir a la página deseada
+   window.location.href = 'http://127.0.0.1:8000/carrito/';
+ });

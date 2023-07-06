@@ -74,7 +74,7 @@
       </div>
     </div>
     <div class="carrito">
-      <a href="#"><ion-icon name="cart-outline"></ion-icon></a>
+      <a href="{%url 'carrito'%}"><ion-icon name="cart-outline"></ion-icon></a>
     </div>
   </nav>
 <section class="Inicio" id="Inicio">
@@ -139,10 +139,19 @@
               <p class="modelo">{{p.nombre | capfirst}}</p>
               <p class="descripcion">{{p.descripcion | capfirst}}</p>
               <span class="precio">${{p.precio | intcomma }}</span>
+              <a href="{% url 'Add' p.id %}" class="btn btn-xs btn-outline btn-primary">Agregar al carrito  <i class="fa fa-long-arrow-right"></i> </a>
 
           </div>
           </div>
          
+
+
+
+
+
+
+
+
 
       </div> 
       {% endfor %}
@@ -150,36 +159,17 @@
 <!-- Teermino Productos -->
 
 
-  <!-- CONTENEDOR DEL ITEM SELECCIONADO -->
-  <div class="seleccion" id="seleccion">
-      <div class="cerrar" onclick="cerrar()">
-          &#x2715
-      </div>
-      <div class="info">
-          <img src="img/1.png" alt="" id="img">
-          <h2 id="modelo"></h2>
 
-          <span class="precio" id="precio"></span>
 
-          <div class="fila">
-              <div class="size">
-                  <label for="">talla</label>
-                  <select name="" id="">
-                      <option value="">S</option>
-                      <option value="">M</option>
-                      <option value="">L</option>
-                      <option value="">XL</option>
-                      <option value="">XXL</option>
-                  </select>
-              </div>
-              <button>AGREGAR AL CARRITO</button>
-          </div>
-      </div>
-  </div>
 </section>
 
 
-
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
 <!-- CONTENEDOR DEL FOOTER -->
 <footer class="mt5 py-5">
   <div class="row">

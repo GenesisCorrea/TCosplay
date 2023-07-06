@@ -3,6 +3,7 @@ from .models import Producto
 from .forms import *
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required
+from app.Carrito import Carrito
 
 # Create your views here.
 
@@ -34,6 +35,11 @@ def otakumascota (request):
 
 def cosmujer (request):
     return render(request, 'app/cosmujer.html')
+
+def pago (request):
+    return render(request, 'app/pago.html')
+
+
 
 
 
@@ -100,3 +106,34 @@ def eliminar_producto(request,id):
     eproducto.delete()
     messages.success(request,"Eliminado Correctamente")
     return redirect(to="listar_producto")
+
+
+###CARRITO
+
+def carrito (request):
+    return render(request, 'app/carrito/carrito.html')
+
+
+def cagregar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.agregar(producto)
+    return redirect("home")
+
+
+def celiminar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.eliminar(producto)
+    return redirect("carrito")
+
+def crestar_producto(request, producto_id):
+    carrito = Carrito(request)
+    producto = Producto.objects.get(id=producto_id)
+    carrito.restar(producto)
+    return redirect("carrito")
+
+def climpiar_carrito(request):
+    carrito = Carrito(request)
+    carrito.limpiar()
+    return redirect("carrito")
